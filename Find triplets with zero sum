@@ -1,0 +1,39 @@
+Find triplets with zero sum
+
+
+C++ Code
+----------------------------------
+
+Time - O(n^2)
+Space - O(n)
+
+----------------------------------
+
+class Solution{
+  public:
+    //Function to find triplets with zero sum.
+    bool findTriplets(int arr[], int n)
+    { 
+        vector<int> nums(n);
+        int i,j,k;
+        for(i=0;i<n;i++)
+            nums[i]=arr[i];
+        sort(nums.begin(),nums.end());
+        for(i=0;i<n-2;i++)
+        {
+            j=i+1;
+            k=n-1;
+            while(j<k)
+            {
+                long long sum = nums[i]+nums[j]+nums[k];
+                if(sum==0)
+                    return 1;
+                else if(sum<0)
+                    j++;
+                else
+                    k--;
+            }
+        }
+        return 0;
+    }
+};
