@@ -1,0 +1,55 @@
+Allocate minimum number of pages
+
+
+C++ Code
+----------------------------------
+
+class Solution {
+  public:
+  typedef long long ll;
+    // Function to find minimum number of pages.
+    
+    bool isPossible(int arr[], ll mid,int n, int m)
+    {
+        ll i,count=1, pages=0;
+        for(i=0;i<n;i++)
+        {
+            if(arr[i]>mid)
+                return false;
+            if(pages+arr[i]>mid)
+            {
+                count++;
+                pages=arr[i];
+                if(count>m)
+                    return 0;
+            }
+             else
+                pages +=arr[i];
+        }
+        return 1;
+    }
+    long long findPages(int n, int arr[], int m) {
+        ll i,res=INT_MAX,low=0,high=0,mid;
+        if(n<m)
+            return -1;
+        for(i=0;i<n;i++)
+        {
+            low = max(low,(ll)arr[i]);
+            high += (ll)arr[i];
+        }
+        
+        while(low<=high)
+        {
+            mid = low+ (high-low)/2;
+            //cout<<mid<<" ";
+            if(isPossible(arr,mid,n,m))
+            {
+                high = mid-1;
+                res = mid;
+            }
+            else
+                low=mid+1;
+        }
+        return res;
+    }
+}
