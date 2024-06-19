@@ -1,0 +1,36 @@
+Word Break
+
+
+C++ Code
+----------------------------------
+
+class Solution
+{
+public:
+    int find(string &s, int ind, int n, unordered_set<string> &dict, vector<int>*memo)
+    {
+        if(ind==n)
+            return 1;
+        if((*memo)[ind]!=-1)
+            return (*memo)[ind];
+        string temp;
+        int i,res=0;
+        for(i=ind;i<n;i++)
+        {
+            temp +=s[i];
+            if(dict.find(temp)!=dict.end())
+                res = res || find(s,i+1,n,dict,memo);
+            if(res)
+                break;
+        }
+        (*memo)[ind]=res;
+        return (*memo)[ind];
+    }
+    int wordBreak(int n, string s, vector<string> &dictionary) 
+    {
+        unordered_set<string> dict(dictionary.begin(),dictionary.end());
+        int len=s.length();
+        vector<int> memo(len,-1);
+        return find(s,0,len,dict,&memo);
+    }
+};
