@@ -1,0 +1,33 @@
+Knapsack with Duplicate Items
+
+
+C++ Code
+----------------------------------
+
+class Solution{
+public:
+    
+    int findProfit(int val[], int wt[], int weight, int n, unordered_map<int,int>*memo)
+    {
+        if(weight<=0)
+            return 0;
+        if(memo->find(weight)!=memo->end())
+            return (*memo)[weight];
+        int i, profit=0;
+        for(i=0;i<n;i++)
+        {
+            if(wt[i]<=weight)
+                profit = max(profit, val[i]+ findProfit(val,wt,weight-wt[i],n,memo));
+        }
+        (*memo)[weight] = profit;
+        return (*memo)[weight];
+    }
+
+    int knapSack(int n, int w, int val[], int wt[])
+    {
+        unordered_map<int,int> memo;
+        
+        return findProfit(val,wt,w,n,&memo);
+        //return find(n,w,val,wt,&memo);
+    }
+};
