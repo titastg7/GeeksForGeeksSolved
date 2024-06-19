@@ -1,0 +1,45 @@
+Find All Four Sum Numbers
+
+
+C++ Code
+----------------------------------
+
+class Solution{
+    public:
+    // arr[] : int input array of integers
+    // p : the quadruple sum required
+    vector<vector<int> > fourSum(vector<int> &arr, int p) 
+    {
+        vector<vector<int>>  res;
+        set<vector<int>> unique;
+        int i,j,k,l,n=arr.size();
+        sort(arr.begin(),arr.end());
+        for(i=0;i<n-3;i++)
+        {
+            for(j=i+1;j<n-2;j++)
+            {
+                k=j+1;
+                l=n-1;
+                while(k<l)
+                {
+                    int sum = arr[i]+arr[j]+arr[k]+arr[l];
+                    if(sum==p)
+                    {
+                        vector<int> quad ={arr[i],arr[j],arr[k],arr[l]};
+                        unique.insert(quad);
+                        k++;
+                        l--;
+
+                    }
+                    else if(sum<p)
+                        k++;
+                    else
+                        l--;
+                }
+            }
+        }
+        for(auto e:unique)
+            res.push_back(e);
+        return res;
+    }
+};
