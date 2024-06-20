@@ -1,0 +1,31 @@
+Root to leaf paths sum
+
+C++ Code
+----------------------------------
+
+/* Tree node structure  used in the program
+ struct Node
+ {
+     int data;
+     Node* left, *right;
+}; */
+
+long long findSum(Node* root, long long sum)
+{
+    sum = sum*10+root->data;
+    if(root->left==NULL && root->right==NULL)
+        return sum;
+    long long left = 0, right=0;
+    if(root->left)
+        left = findSum(root->left,sum);
+    if(root->right)
+        right = findSum(root->right,sum);
+    return left+right;
+}
+/*You are required to complete below method */
+long long treePathsSum(Node *root)
+{
+    if(root==NULL)
+        return 0;
+    return findSum(root,0);    
+}
