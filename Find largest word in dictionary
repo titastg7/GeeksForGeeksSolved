@@ -1,0 +1,43 @@
+Find largest word in dictionary
+
+C++ Code
+----------------------------------
+
+class Solution {
+  public:
+    bool isSubsequence(string main, string pat, int i, int j,vector<vector<int>>*memo)
+    {
+        if(i<0)
+            return 1;
+        if(j<0)
+            return 0;
+        if((*memo)[i][j]!=-1)
+            return (*memo)[i][j];
+        if(main[j]==pat[i])
+            (*memo)[i][j]= isSubsequence(main,pat,i-1,j-1,memo);
+        else
+            (*memo)[i][j]= isSubsequence(main,pat,i,j-1,memo);
+        return (*memo)[i][j];
+    }
+    string findLongestWord(string s, vector<string> d) 
+    {
+        sort(d.begin(),d.end(),
+        [](const string &a, const string &b)
+        {
+            if(a.length()==b.length())
+                return a<b;
+                
+            return a.length()>b.length();            
+        });
+        
+        int slen=s.length(), wLen=0;
+        for(string str:d)
+        {
+            wLen = str.length();
+            vector<vector<int>>memo(wLen, vector<int>(slen,-1));
+            if(isSubsequence(s,str,wLen-1,slen-1,&memo))
+                return str;
+        }
+        return "";
+    }
+};
