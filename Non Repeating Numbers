@@ -1,0 +1,29 @@
+Non Repeating Numbers
+
+
+C++ Code
+----------------------------------
+
+class Solution
+{
+public:
+    vector<int> singleNumber(vector<int> nums) 
+    {
+        int n=nums.size(),numXor=0;
+        for(int i:nums)
+            numXor ^=i;
+        vector<int> res(2,0);
+        
+        numXor &=-numXor;
+        for(int i:nums)
+        {
+            if(numXor &i)
+                res[1] ^=i;
+            else
+                res[0] ^=i;
+        }
+        if(res[0]>res[1])
+            swap(res[0],res[1]);
+        return res;
+    }
+};
