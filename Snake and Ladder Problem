@@ -1,0 +1,62 @@
+Snake and Ladder Problem
+
+C++ Code
+----------------------------------
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+public:
+    int find(int pos, unordered_map<int,int> posMap, vector<int>*memo)
+    {
+        if(pos>=30)
+            return 0;
+        if((*memo)[pos]!=-1)
+            return (*memo)[pos];
+        int k, curSteps=INT_MAX/6, nextPos=0;
+        for(k=1;k<=6;k++)
+        {
+            nextPos = pos+k;
+            if(posMap.find(nextPos)!=posMap.end())
+            {
+                if(posMap[nextPos]<nextPos)
+                    continue;
+                nextPos = posMap[nextPos];
+            }
+            curSteps = min(curSteps,1+find(nextPos,posMap,memo));
+        }
+        (*memo)[pos] = curSteps;
+        return (*memo)[pos];
+    }
+    int minThrow(int n, int arr[])
+    {
+        vector<int> memo(31,-1);
+        int i=0;
+        unordered_map<int,int> cellDest;
+        for(i=0;i<n;i++)
+        {
+            cellDest[arr[2*i]]= arr[2*i+1];
+        }
+        return find(1,cellDest,&memo);
+    }
+};
+
+//{ Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int N;
+        cin>>N;
+        int arr[2*N];
+        for(int i = 0;i < 2*N;i++)
+            cin>>arr[i];
+        
+        Solution ob;
+        cout<<ob.minThrow(N, arr)<<"\n";
+    }
+    return 0;
+}
+// } Driver Code Ends
