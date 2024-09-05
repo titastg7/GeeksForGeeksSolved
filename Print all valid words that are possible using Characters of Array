@@ -3,6 +3,10 @@ Print all valid words that are possible using Characters of Array
 
 C++ Code
 ----------------------------------
+m = Length of longest word in dict
+N = length of input arr
+Time =
+
 
 // Online C++ compiler to run C++ program online
 #include <bits/stdc++.h>
