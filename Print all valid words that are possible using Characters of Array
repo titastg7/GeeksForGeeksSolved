@@ -1,0 +1,82 @@
+Print all valid words that are possible using Characters of Array
+
+
+C++ Code
+----------------------------------
+
+// Online C++ compiler to run C++ program online
+#include <bits/stdc++.h>
+using namespace std;
+
+class Trie
+{
+    unordered_map<char,Trie*> children;
+    bool isEnd;
+    public: 
+    Trie()
+    {
+        isEnd=false; 
+    }
+    void insert(string word)
+    {
+        Trie* cur = this;
+        for(auto ch:word)
+        {
+            if(cur->children.find(ch)==cur->children.end())
+            {
+                Trie* newNode = new Trie();
+                cur->children[ch]= newNode;
+            }
+            cur=cur->children[ch];
+        }
+        cur->isEnd=true;
+        return;
+    }
+    
+    void search(Trie* node,unordered_map<char,int> &chars,vector<string>*res, string curStr)
+    {
+        Trie* cur = node;
+        if(cur->isEnd)
+            res->push_back(curStr);
+        char curChar;
+
+        for(auto& ch:chars)
+        {
+            curChar = ch.first;
+            if(ch.second>0 && cur->children.find(curChar)!=cur->children.end())
+            {
+                ch.second--;
+                search(cur->children[curChar],chars,res,curStr+curChar);
+                chars[curChar]++;
+            }
+        }
+        return;
+    }
+};
+
+vector<string> printAllWords(vector<string> dict, vector<char> arr)
+{
+    vector<string> res;
+    string word;
+    Trie* head = new Trie();
+    int i, n=dict.size(), m=arr.size();
+    for(i=0;i<n;i++)
+        head->insert(dict[i]);
+    
+    unordered_map<char,int> charMap;
+    for(i=0;i<m;i++)
+        charMap[arr[i]]++;
+    head->search(head, charMap, &res, word);
+    return res;
+}
+
+int main() 
+{
+    vector<string> dict = {"go", "bat", "me", "eat", "goal", "boy", "run"} ;
+    vector<char> arr = {'e', 'o', 'b', 'a', 'm', 'g', 't'} ;
+    vector<string> res = printAllWords(dict,arr);
+    for(auto it:res)
+        cout<<it<<"  ";
+    cout<<endl;
+    return 0;
+}
